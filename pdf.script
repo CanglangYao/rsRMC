@@ -1,0 +1,17 @@
+#!/bin/bash
+for k in {1..2000}
+do
+#  sed '1,8d' POSCAR-$k >temp
+#  python cartesian.py temp
+#  cp CN temp
+#  paste PbI3 >> temp
+#  paste element temp > supercell
+#  l=`expr $k + $d`
+#  python prepare.py $k
+ # phonopy --vasp -c test.vasp -d --dim="1 1 1" --rd 2 --amplitude="0.1"
+  python str-pdf.py
+  mpirun -n 15 ./recip-mpi-444.out supercell $k
+  cp supercell-new ../average/supercell-$k
+  ./recip-single-444.out supercell-new
+  cp supercell-new.rpdf ../stored/supercell-$k.rpdf
+done
